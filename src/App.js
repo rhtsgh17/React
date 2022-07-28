@@ -25,17 +25,11 @@
 // export default App;
 
 import React from 'react';
-import Header from "./Komponen/header";
-import Tes from "./Komponen/Module/tes"
-import {Input,Button} from "./Komponen/Named";
+
 function App() {
   return (
     <React.Fragment>
       <h1>Latihan Export Import</h1>
-      <Header/>
-      <Tes/>
-      <Input/>
-      <Button/>
     </React.Fragment>
   );
 }
