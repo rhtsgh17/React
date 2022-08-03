@@ -3,3 +3,22 @@
     padding: 5px 10px;
     border: 1px solid hotpink;
 }
+.layout {
+    border: 1px solid red;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.buttton-red {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: 1px solid red;
+    cursor: progress;
+}
+.buttton-blue {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border: 1px solid blue;
+    cursor: progress;
+}
