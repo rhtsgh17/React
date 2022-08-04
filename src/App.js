@@ -3,16 +3,76 @@ import React from "react";
 import Layout from "./komponen/layout";
 import Button from "./komponen/button";
 import "./styles/style.css";
+import Input from './komponen/input'
 
 
-export default function App(){
-  let [nama, setNama] = React.useState("");
-  let [email, setEmail] = React.useState("");
-  let [password, setPassword] = React.useState("");
-  let [ConfirmPassword, setConfirmPassword] = React.useState("");
-  return(
+export default function App() {
+  const [values, setValues] = React.useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    e.preventDefault()
+    console.log("ok siap jalan");
+    setValues((values) => {
+      return {
+        ...values,
+        [e.target.name]: e.target.value,
+      }
+    })
+
+  };
+  return (
     <React.Fragment>
-      </React.Fragment>
+      <div style={{ display: 'flex' }}>
+
+        <form style={{
+          width: "54%",
+        }}>
+
+          <Input
+            name={"usernama"}
+            value={values.username}
+            label={'Username'}
+            placeholder="Username"
+            onChange={(event) => {
+              event.preventDefault();
+              console.log('ok jalan', event.target.value)
+              setValues((values) => {
+                return {
+                  ...values,
+                  username: event.target.value,
+                };
+              });
+            }} />
+          <Input name={"email"}
+            value={values.email}
+            isError={true}
+            label={'Email'}
+            placeholder="Email"
+            onChange={handleChange} />
+          <Input name={"password"} value={values.password} label={'Password'} placeholder="Password"
+            onChange={handleChange} />
+          <Input name={"confirmPassword"} value={values.confirmPassword} label={'Confirm Password'} placeholder="ConfirmPaswword"
+            onChange={handleChange} />
+          <Button tittle={"Simpan"} />
+        </form>
+        <div style={{
+          width: "50%",
+          border: "1px solid green",
+          height: "100vh",
+        }}>
+          <p>Username: {values?.username}</p>
+          <p>Email: {values?.email}</p>
+          <p>Password: {values?.password}</p>
+          <p>ConfirmPassword: {values?.ConfirmPassword}</p>
+        </div>
+
+      </div>
+    </React.Fragment>
   )
 }
 

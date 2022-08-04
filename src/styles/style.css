@@ -1,7 +1,7 @@
 .input{
-    background-color: hotpink;
+    background-color: blue;
     padding: 5px 10px;
-    border: 1px solid hotpink;
+    border: 1px solid blue;
 }
 .layout {
     border: 1px solid red;
@@ -21,4 +21,25 @@
     padding: 5px 10px;
     border: 1px solid blue;
     cursor: progress;
+}
+.input{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-text{
+    padding: 2px 5px;
+    margin-top: 5px;
+    border-radius: 2px;
+    width: 80%;
+}
+
+.error{
+    color: red;
+    font-style: italic;
+    font-size: 10px;
+    font-weight: bold;
+}
+.Button{
+    color: darkgoldenrod;
 }

@@ -42,7 +42,7 @@ export default function Button({
             backgroundColor: "color",
             opacity: disabled ? 0.5 : 1
           }}
-          className="button"
+          className="button-red"
         >
           {tittle}
         </button>
