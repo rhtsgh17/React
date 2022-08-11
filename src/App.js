@@ -1,35 +1,50 @@
-// import logo from './logo.svg';
-// import './App.css';
-// import React from 'react';
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
-// export default App;
 
 import React from 'react';
 
 function App() {
+
+  let [count, setCount] = React.useState(0);
+  let [text, setText] = React.useState(true);
+  let [message, setMessage] = React.useState(0);
+  
+  React.useEffect(() => {
+    setMessage(message + 1);
+    console.log('useEffect berjalan');
+   
+  },[count,text]);
+  let [isloading, setIsloading] =React.useState(true)
+  React.useEffect(() => {
+    setTimeout(() => {
+      setIsloading(false);
+    }, 2000);
+  }, []);
+
+  if(isloading) {
+    return <h1>Loading.......................</h1>
+  }
   return (
     <React.Fragment>
-      <h1>Latihan Export Import</h1>
+
+      <h1>Belajar Use Effect</h1>
+      <h3>{message === 10 ?"ini tujuh belas": "bukan 17 belas"}</h3>
+      <h1>Message: {message}</h1>
+      <h1>Count: {count}</h1>
+      <button
+      onClick={() => {
+        setCount(count +1);
+      }}
+      > 
+      Tambah
+      </button>
+      <button 
+      onClick={() =>{
+        setText(!text);
+      }}
+      
+      >
+        ubah
+      </button>
     </React.Fragment>
   );
 }
