@@ -5,17 +5,17 @@
 }
 .layout {
     border: 1px solid red;
-    padding: 10px;
+    padding: 20px;
     margin-bottom: 10px;
 }
-.buttton-red {
+.button-red {
     background-color: red;
     color: white;
-    padding: 5px 10px;
+    padding: 10px 50px;
     border: 1px solid red;
     cursor: progress;
 }
-.buttton-blue {
+.button-blue {
     background-color: blue;
     color: white;
     padding: 5px 10px;

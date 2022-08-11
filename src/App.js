@@ -4,6 +4,7 @@ import Layout from "./komponen/layout";
 import Button from "./komponen/button";
 import "./styles/style.css";
 import Input from './komponen/input'
+import Card from "./komponen/card";
 
 
 export default function App() {
@@ -14,6 +15,9 @@ export default function App() {
     confirmPassword: "",
   });
 
+  const [data, setData] = React.useState([]);
+  const [errors, setErrors] = React.useState({});
+
   const handleChange = (e) => {
     e.preventDefault()
     console.log("ok siap jalan");
@@ -22,25 +26,79 @@ export default function App() {
         ...values,
         [e.target.name]: e.target.value,
       }
-    })
+    });
+    if (e.target.value === "") {
+      setErrors({
+        ...errors,
+        [e.target.name]: false,
+      });
+    } else {
+      setErrors({
+        ...errors,
+        [e.target.name]: true,
+      })
+    }
 
   };
+
+
+  const handleBlur = (e) => {
+    e.preventDefault();
+
+    if (e.target.value === "") {
+      setErrors((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: true,
+        }
+      })
+    }
+
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('from tersubmit');
+
+    values.id = new Date().getMinutes()
+    setData((data) => {
+      return [...data, values];
+    });
+
+    setValues((values)=>{
+      return{
+        username:"",
+        email:"",
+        password:"",
+        confirmPassword:"",
+    }
+    })
+  };
+
+  console.log('errors', errors);
+
   return (
     <React.Fragment>
       <div style={{ display: 'flex' }}>
 
-        <form style={{
-          width: "54%",
-        }}>
+        <form
+          onSubmit={handleSubmit}
+
+          style={{
+            width: "54%",
+          }}>
 
           <Input
-            name={"usernama"}
+            isError={errors?.username}
+            textError={'wajibdiisi'}
+            name={"username"}
             value={values.username}
             label={'Username'}
             placeholder="Username"
+            onBlur={handleBlur}
             onChange={(event) => {
               event.preventDefault();
-              console.log('ok jalan', event.target.value)
+              console.log('gas lah jalan', event.target.value)
               setValues((values) => {
                 return {
                   ...values,
@@ -48,15 +106,25 @@ export default function App() {
                 };
               });
             }} />
-          <Input name={"email"}
+          <Input
+            isError={errors?.username}
+            textError={'wajib diisi'}
+            name={"email"}
             value={values.email}
-            isError={true}
+
             label={'Email'}
             placeholder="Email"
+            onBlur={handleBlur}
             onChange={handleChange} />
-          <Input name={"password"} value={values.password} label={'Password'} placeholder="Password"
+          <Input
+            isError={errors?.username}
+            textError={'wajib diisi'}
+            name={"password"} value={values.password} label={'Password'} placeholder="Password"
             onChange={handleChange} />
-          <Input name={"confirmPassword"} value={values.confirmPassword} label={'Confirm Password'} placeholder="ConfirmPaswword"
+          <Input
+            isError={errors?.username}
+            textError={'wajib diisi'}
+            name={"confirmPassword"} value={values.confirmPassword} label={'Confirm Password'} placeholder="ConfirmPaswword"
             onChange={handleChange} />
           <Button tittle={"Simpan"} />
         </form>
@@ -65,10 +133,8 @@ export default function App() {
           border: "1px solid green",
           height: "100vh",
         }}>
-          <p>Username: {values?.username}</p>
-          <p>Email: {values?.email}</p>
-          <p>Password: {values?.password}</p>
-          <p>ConfirmPassword: {values?.ConfirmPassword}</p>
+
+          <Card data={data} setData={setData}/>
         </div>
 
       </div>
