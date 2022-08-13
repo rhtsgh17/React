@@ -2,7 +2,7 @@ import React from "react";
 // import Layout from "./komponen/layout";
 import Button from "./komponen/button";
 import "./styles/style.css";
-import Input from './komponen/input'
+import Input from './komponen/input';
 import Card from "./komponen/card";
 
 
@@ -152,7 +152,7 @@ export default function App() {
           <Input
             isError={errors?.username}
             textError={'wajib diisi'}
-            name={"password"} 
+            name={"Password"} 
             value={values.password} 
             label={'Password'} 
             placeholder="Password"
@@ -165,6 +165,8 @@ export default function App() {
             label={'Confirm Password'} 
             placeholder="ConfirmPaswword"
             onChange={handleChange} />
+
+          
           
             <Button title={"Reset"} />
             <Button type={"simpan"} title={"Simpan"}/>
