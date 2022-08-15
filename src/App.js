@@ -10,6 +10,9 @@ export default function App() {
   const [values, setValues] = React.useState({
     username: "",
     email: "",
+    TanggalLahir: "",
+    tempatLahir: "",
+    jenisKelamin: "",
     password: "",
     confirmPassword: "",
   });
@@ -26,7 +29,7 @@ export default function App() {
         [e.target.name]: e.target.value,
       }
     });
-    if (e.target.value === "") {
+    if (e.target.value !== "") {
       setErrors({
         ...errors,
         [e.target.name]: false,
@@ -175,7 +178,7 @@ export default function App() {
         <div style={{
           width: "50%",
           border: "1px solid green",
-          height: "100vh",
+          height: "572",
         }}>
 
           <Card data={data} setData={setData} />

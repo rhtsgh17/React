@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Input({label, isError, textError, ...props}) {
+export default function Card({label, isError, textError, ...props}) {
   return(
     
     <div className="input">

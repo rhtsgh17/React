@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Button({
     tittle,
-    color = "red",
+    color = "blue",
     disabled,
   ...props
   }) {
@@ -12,10 +12,10 @@ export default function Button({
         disabled={disabled}
          {...props}
           style={{
-            backgroundColor: "red",
+            backgroundColor: color,
             opacity: disabled ? 0.5 : 1
           }}
-          className="button-red"
+          className="button"
         >
           {tittle}
         </button>

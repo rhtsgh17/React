@@ -1,6 +1,6 @@
 import React from "react";
 // import Button from "./button";
-export default function Card({data}){
+export default function Input({data}){
     console.log('data adalah', data);
 
     const handleDelete =(e) => {
@@ -15,7 +15,7 @@ export default function Card({data}){
             return filter;
         })
         console.log('button delete klik')
-    }
+    };
     return(
         <React.Fragment>
             <div>
@@ -23,7 +23,7 @@ export default function Card({data}){
             <p>Email: {value?.email}</p>
             <p>Password: {value?.password}</p>
             <p>ConfirmPassword: {value?.confirmPassword}</p> */}
-            {data?.map((item) =>{
+            {data?.map((item,i) =>{
                 return(
                     <div>
                         <p>ID: {item?.id}</p>
@@ -34,7 +34,8 @@ export default function Card({data}){
                         <p>JenisKelamin: {item.JenisKelamin}</p>
                         <p>Password: {item.password}</p>
                         <p>ConfirmPassword: {item.confirmPassword}</p>
-                        <button value={item?.id}onClick={handleDelete}>Hapus</button>
+                        <button value={item?.id}onClick={handleDelete} title={"Delete"}/>
+                        <button title={"Update"}/>
                     </div>
                 )
             })}
