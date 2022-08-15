@@ -1,16 +1,22 @@
-import React from "react";
+import React from 'react'
 
-export default function Card({label, isError, textError, ...props}) {
-  return(
+export default function Card({count, setCount}) {
     
-    <div className="input">
-      <label className="label" htmlFor={label}>
-        {label}
-      </label>
-
-      <input {...props} className="input-text" id={label} />
-
-      {isError && <p className="error">{textError}</p>}
-    </div>
-  );
+    const handleMaju = () =>{
+        setCount(count+1)
+    }
+    const handleMundur =() => {
+        setCount(count-1)
+    }
+    return(
+        <React.Fragment>
+            <p>Card</p>
+            {count}
+            
+            <h3>{count <= 10? "Kurang dari sepuluh" :
+             "Lebih dari sepuluh"}</h3>
+            <button onClick={handleMaju}>Maju</button>
+            <button onClick={handleMundur}>Mundur</button>
+        </React.Fragment>
+    )
 }
