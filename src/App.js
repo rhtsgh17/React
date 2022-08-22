@@ -1,49 +1,132 @@
-import React from 'react';
-import {Routes, Route, NavLink} from "react-router-dom"
-import Home from './pages/home';
-import Setting from './pages/setting';
-import About from './pages/about';
-import Detail from './pages/detail';
-function App() {
+import React from "react";
+
+import Button from "./komponen/Button"
+import "./styles/style.css";
+import Input from './komponen/Input'
+import Card from "./komponen/Card";
+
+
+export default function App() {
+  const [values, setValues] = React.useState({
+    judul: "",
+    catatan: "",
+   });
+
+  const [data, setData] = React.useState([]);
+  const [errors, setErrors] = React.useState({});
+
+  const handleChange = (e) => {
+    e.preventDefault()
+    console.log("ok siap jalan");
+    setValues((values) => {
+      return {
+        ...values,
+        [e.target.judul]: e.target.value,
+      }
+    });
+    if (e.target.value === "") {
+      setErrors({
+        ...errors,
+        [e.target.judul]: false,
+      });
+    } else {
+      setErrors({
+        ...errors,
+        [e.target.judul]: true,
+      })
+    }
+
+  };
+
+
+  const handleBlur = (e) => {
+    e.preventDefault();
+
+    if (e.target.value === "") {
+      setErrors((errors) => {
+        return {
+          ...errors,
+          [e.target.judul]: true,
+        }
+      })
+    }
+
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('from tersubmit');
+
+    values.id = new Date().getMinutes()
+    setData((data) => {
+      return [...data, values];
+    });
+
+    setValues((values)=>{
+      return{
+        judul:"",
+        catatan:"",
+       
+    }
+    })
+  };
+
+  console.log('errors', errors);
+
   return (
     <React.Fragment>
-      <section className='space-x-5 border py-5'>
-        {/* <Link to={"/"}>Home</Link>
-        <Link to={"/setting"}>Setting</Link>
-        <Link to={"/about"}>About</Link> */}
-        <NavLink exact to="/" style={({isActive}) =>
-      isActive?{
-        color: "red",
-      }
-      :undefined
-    }>Home</NavLink>
+      <div style={{ display: 'flex' }}>
+        <h1>satu</h1>
+        {/* <form
+          onSubmit={handleSubmit}
 
-<NavLink exact to="/setting" style={({isActive}) =>
-      isActive?{
-        color: "pink",
-      }
-      :undefined
-    }>Setting</NavLink>
-    
-    <NavLink exact to="/about" className={({isActive}) =>
-      isActive?
-        'Text-White border p-2 bg-green-500'
-      
-      :undefined
-    }>About</NavLink>
-    
-    
-      </section>
-    <Routes>
-      <Route path='/' element={<Home /> } />
-      <Route path='/setting' element={<Setting />} />
-      <Route path='/about' element={<About />} />
-      <Route path='/about/:id/:nama' element={<Detail />} />
-    </Routes>
+          style={{
+            width: "54%",
+          }}>
+
+          <Input
+            isError={errors?.judul}
+            textError={'wajibdiisi'}
+            name={"username"}
+            value={values.judul}
+            label={'Username'}
+            placeholder="Username"
+            onBlur={handleBlur}
+            onChange={(event) => {
+              event.preventDefault();
+              console.log('gas lah jalan', event.target.value)
+              setValues((values) => {
+                return {
+                  ...values,
+                  judul: event.target.value,
+                };
+              });
+            }} />
+          <Input
+            isError={errors?.catatan}
+            textError={'wajib diisi'}
+            name={"email"}
+            value={values.catatan}
+
+            label={'Email'}
+            placeholder="Email"
+            onBlur={handleBlur}
+            onChange={handleChange} />
+         <Button tittle={"Simpan"} />
+        </form> */}
+        {/* <div style={{
+          width: "50%",
+          border: "1px solid green",
+          height: "100vh",
+        }}>
+
+          <Card data={data} setData={setData}/>
+        </div> */}
+
+      </div>
     </React.Fragment>
-    
-  );
+  )
 }
 
-export default App;
+
 
