@@ -1,5 +1,5 @@
 export default function Home(){
     return(
-            <div>ini adalah home</div>
+            <div>nah iye home</div>
     );
 }
