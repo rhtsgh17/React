@@ -1,132 +1,210 @@
-import React from "react";
-
-import Button from "./komponen/Button"
-import "./styles/style.css";
-import Input from './komponen/Input'
-import Card from "./komponen/Card";
-
-
-export default function App() {
+import React, { useState } from "react";
+import Button from './component/Button';
+import Card from './component/Card';
+import Input from './component/Input';
+import TextArea from './component/TextArea';
+function App() {
   const [values, setValues] = React.useState({
-    judul: "",
-    catatan: "",
-   });
-
-  const [data, setData] = React.useState([]);
+    id: "",
+    title: "",
+    body: "",
+    year: "",
+    archived: false,
+    createdAt: "",
+  });
+  const [catatan, setCatatan] = React.useState([]);
   const [errors, setErrors] = React.useState({});
+  const [formError, setFormError] = useState("");
 
   const handleChange = (e) => {
-    e.preventDefault()
-    console.log("ok siap jalan");
+    e.preventDefault();
+    // console.log('ada');
     setValues((values) => {
       return {
         ...values,
-        [e.target.judul]: e.target.value,
-      }
+        [e.target.name]: e.target.value,
+        id: new Date().getTime(),
+        createdAt: new Date(),
+      };
     });
-    if (e.target.value === "") {
-      setErrors({
-        ...errors,
-        [e.target.judul]: false,
-      });
-    } else {
-      setErrors({
-        ...errors,
-        [e.target.judul]: true,
-      })
-    }
-
+    handleBlur(e);
+    setFormError("");
   };
-
-
-  const handleBlur = (e) => {
-    e.preventDefault();
-
-    if (e.target.value === "") {
-      setErrors((errors) => {
-        return {
-          ...errors,
-          [e.target.judul]: true,
-        }
-      })
-    }
-
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('from tersubmit');
+    console.log("tersubmit");
 
-    values.id = new Date().getMinutes()
-    setData((data) => {
-      return [...data, values];
-    });
-
-    setValues((values)=>{
-      return{
-        judul:"",
-        catatan:"",
-       
+    if (
+      values.title === "" ||
+      values.body === "" ||
+      values.year < 2025 ||
+      values.year > 2027
+    ) {
+      if (values.title === "") {
+        setErrors((errors) => {
+          return {
+            ...errors,
+            title: true,
+          };
+        });
+      }
+      if (values.body === "") {
+        setErrors((errors) => {
+          return {
+            ...errors,
+            body: true,
+          };
+        });
+      }
+      if (values.year < 2025 || values.year > 2027) {
+        setErrors((errors) => {
+          return {
+            ...errors,
+            year: true,
+          };
+        });
+      }
+      setFormError("Form wajid diisi");
+      return;
     }
-    })
+
+    setCatatan((catatan) => [...catatan, values]);
+    setValues(() => {
+      return {
+        id: "",
+        title: "",
+        body: "",
+        year: "",
+        archived: false,
+        createdAt: "",
+      };
+    });
   };
 
-  console.log('errors', errors);
+  const handleBlur = (e) => {
+    console.log("handleblur");
 
+    if (e.target.value === "") {
+      setErrors(() => {
+        return {
+          ...errors,
+          [e.target.name]: true,
+        };
+      });
+    } else {
+      setErrors(() => {
+        return {
+          ...errors,
+          [e.target.name]: false,
+        };
+      });
+    }
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    const hasilFilter = catatan.filter((item) => {
+      return item.id !== parseInt(e.target.value);
+    });
+    setCatatan(() => {
+      return hasilFilter;
+    });
+    console.log("filter", hasilFilter);
+  };
+
+  // console.log(values);
+  console.log("error: ", errors);
+  console.log("Catatan: ", catatan);
   return (
     <React.Fragment>
-      <div style={{ display: 'flex' }}>
-        <h1>satu</h1>
-        {/* <form
-          onSubmit={handleSubmit}
+      {/* <h1 className="bg-red-500 text-white text-center mb-5">
+        Pembahasan Remedial
+      </h1> */}
 
-          style={{
-            width: "54%",
-          }}>
+      <div className="w-full min-h-screen text-grey-500 p-5 space-y-5">
+        <div className="grid grid-cols-3 lg:grid-cols-5 md:grid-cols-4 border-b-2 py-2 border-green-700">
+          <h1 className="text-2xl ">MyNotes</h1>
+          <div className="col-start-3 lg:col-start-5 md:col-start-4">
+            <Input placeholder="Cari Catatan..." />
+          </div>
+        </div>
 
-          <Input
-            isError={errors?.judul}
-            textError={'wajibdiisi'}
-            name={"username"}
-            value={values.judul}
-            label={'Username'}
-            placeholder="Username"
-            onBlur={handleBlur}
-            onChange={(event) => {
-              event.preventDefault();
-              console.log('gas lah jalan', event.target.value)
-              setValues((values) => {
-                return {
-                  ...values,
-                  judul: event.target.value,
-                };
-              });
-            }} />
-          <Input
-            isError={errors?.catatan}
-            textError={'wajib diisi'}
-            name={"email"}
-            value={values.catatan}
+        <div className="grid grid-cols-1 gap-5">
+          <div className="flex items-center justify-center"></div>
+          <div className="col-span-1 flex items-center justify-center">
+            <form className="space-y-2" onSubmit={handleSubmit}>
+              <p className="text-red-500 text-lg italic font-semibold">
+                {formError}
+              </p>
+              <label htmlFor="Judul">
+                <h1 className="text-xl cursor-pointer ">
+                  Buat Catatan <span className="text-red-600 text-2xl">*</span>
+                </h1>
+              </label>
+              <Input
+                name={"title"}
+                value={values.title}
+                title={"Judul"}
+                placeholder="Judul"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.title}
+              />
+              <TextArea
+                name={"body"}
+                value={values.body}
+                title={"Body"}
+                placeholder="Catatan"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.body}
+              />
+              <Input
+                name={"year"}
+                value={values.year}
+                title={"Tahun Terbit"}
+                placeholder="Tahun Terbit (2025 s/d 2027)"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.year}
+                type="number"
+                maxLength={4}
+              />
+              <Button title="Simpan" />
+            </form>
+          </div>
 
-            label={'Email'}
-            placeholder="Email"
-            onBlur={handleBlur}
-            onChange={handleChange} />
-         <Button tittle={"Simpan"} />
-        </form> */}
-        {/* <div style={{
-          width: "50%",
-          border: "1px solid green",
-          height: "100vh",
-        }}>
-
-          <Card data={data} setData={setData}/>
-        </div> */}
-
+          <div className="col-span-1 overflow-auto w-full px-5 py-3 border-2 h-96 rounded-md border-green-700 space-y-5">
+            <h1 className="text-2xl border-b border-green-700 py-2 mb-5 ">
+              Daftar Catatan
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {catatan.length === 0 ? (
+                <div className=" ">Tidak ada catatan!</div>
+              ) : (
+                catatan.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <Card
+                        title={item.title}
+                        body={item.body}
+                        year={item.year}
+                        createdAt={item.createdAt}
+                        id={item.id}
+                        handleDelete={handleDelete}
+                      />
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </React.Fragment>
-  )
+  );
 }
 
-
-
+export default App;
