@@ -57,7 +57,7 @@ function App() {
         <Route path='/about/:id/:nama' element={<Detail />} />
         <Route path='/404' element={<NotFound />} />
         <Route path="/home" element={<Navigate to="/" replace />} />
-        <Route path="*" element={<Navigate to="/404" replace />} />
+        {/* <Route path="*" element={<Navigate to="/404" replace />} /> */}
       </Routes>
     </React.Fragment>
 
