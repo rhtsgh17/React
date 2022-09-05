@@ -8,6 +8,9 @@ import NotFound from './pages/NotFound';
 import Komputer from './pages/setting/komputer';
 import Phone from './pages/setting/phone';
 import Profile from './pages/setting/profile';
+import Asus from './pages/setting/komputer/asus';
+import Apple from './pages/setting/komputer/apple';
+import Lenovo from './pages/setting/komputer/lenovo';
 function App() {
 
   return (
@@ -42,9 +45,13 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/setting' element={<Setting />} >
-          <Route path='komputer' element={<komputer />} />
-          <Route path='phone' element={<phone />} />
-          <Route path='profile' element={<profile />} />
+          <Route path='komputer' element={<Komputer />} >
+            <Route path='lenovo' element={<Lenovo />} />
+            <Route path='apple' element={<Apple />} />
+            <Route path='asus' element={<Asus />} />
+          </Route>
+          <Route path='phone' element={<Phone />} />
+          <Route path='profile' element={<Profile />} />
         </Route>
         <Route path='/about' element={<About />} />
         <Route path='/about/:id/:nama' element={<Detail />} />

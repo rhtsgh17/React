@@ -1,11 +1,19 @@
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
 export default function Detail () {
+    let navigate = useNavigate();
     let {id,nama} = useParams ()
     return(
         <div>
             <p>ini adalah detail</p>
             <p>id nya adalah {id} {nama}</p>
+            <button 
+            onClick={() => {
+                return navigate("/home", {replace:true});
+            }}
+            >
+            home
+            </button>
         </div>
-    )
+    );
 }
