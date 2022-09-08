@@ -1,24 +1,16 @@
-import React from "react";
-import {Navigate} from "react-router-dom";
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-export default function Login(){
-    const navigate = Navigate();
-    // eslint-disable-next-line no-unused-vars
-    const handleLogin = () => {
-      return navigate("login", {replace: true});
-    };
-    // eslint-disable-next-line no-unused-vars
-    const handleRegister = () => {
-        return navigate("register", {replace: true});
-      }
-    
-    return (
-        <div>
-            <h1>Login Pages</h1>
-           <div className="flex">
-           <button className="p-3 bg-green-500 text-white rounded-xl" onClick={"handleRegister"}>Register</button>
-           <button className="p-3 bg-green-500 text-white rounded-xl" onClick={"handleLogin"}>Login</button>
-           </div>
-        </div>
-    )
+const Login = () => {
+  return (
+    <section className="space-y-5 w-screen">
+      <div className="font-bold text-2xl text-center uppercase">Login Page</div>
+      <div className="space-x-10 flex flex-row justify-center" >
+        <NavLink to={`/admin/dashboard`} className="py-2 px-7 border border-green-500 rounded bg-transparent">Login</NavLink>
+        <NavLink to={`/register`} className="py-2 px-5 border border-green-500 rounded bg-transparent">Register</NavLink>
+      </div>
+    </section>
+  )
 }
+
+export default Login

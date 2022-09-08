@@ -1,6 +1,7 @@
-import React from "react";
+import React from 'react'
+import { Link } from 'react-router-dom';
 
-export default function User() {
+const User = () => {
   const [user, setUser] = React.useState([
     {
       name: "akbar",
@@ -11,7 +12,7 @@ export default function User() {
       kelas: "XI RPL",
     },
     {
-      name: "hilmi",
+      name: "rohmats",
       kelas: "XI RPL",
     },
     {
@@ -19,14 +20,25 @@ export default function User() {
       kelas: "XI RPL",
     },
     {
-      name: "rauza",
+      name: "sugih",
       kelas: "XI TKJ",
     },
   ]);
+
   return (
-    <div>
-      <h1>User Page</h1>
-      <div className="flex flex-col"></div>
-    </div>
-  );
+    <section>
+      <div className="w-[1166px] text-center font-bold uppercase text-2xl">User Page</div>
+      <div>
+        {user?.map((item) => {
+          return(
+            <section>
+              <Link to={`${item.name}/${item.kelas}`}>{item.name}</Link>
+            </section>
+          )
+        })}
+      </div>
+    </section>
+  )
 }
+
+export default User

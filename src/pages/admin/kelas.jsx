@@ -1,7 +1,11 @@
-export default function Kelas() {
+import React from 'react'
+
+const Kelas = () => {
   return (
-    <div>
-      <h1>Kelas Page</h1>
+    <div className="w-[1166px] text-center font-bold uppercase text-2xl">
+      Kelas Page
     </div>
-  );
+  )
 }
+
+export default Kelas
