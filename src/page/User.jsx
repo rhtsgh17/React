@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 export default function User () {
     
     const [users, setUsers] = React.useState([]);  //state utk menyimpan data dari user api
-        const [page, setPage] = React.useState(1);
+        const [page, setPage] = React.useState(100);
     const getUserHandle = async() => {
             try{
-                const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
+                const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`);
                 console.log("response =>" , response.data);
                 setUsers(response.data.data);
                 setPage(response.data.page)
@@ -24,16 +25,18 @@ export default function User () {
     return (
         <div>
             <h1>Tabel User</h1>
-          
+            <Link to="/user/create">
+                <p className="bg-yellow-300">Tambah User</p> 
+                </Link>
             <table className="table-auto">
                 <thead>
                     <tr className="text-left border">
-                        <th>No</th>
-                        <th>Email</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Avatar</th>
-                        <th>Detail</th>
+                        <th className="pr-5">No</th>
+                        <th className="pr-5">Username</th>
+                        <th className="pr-5">Email</th>
+                        <th className="pr-5">Jenis_kelamin</th>
+                        <th className="pr-5">Di buat</th>
+                        <th className="pr-5">Di Update</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,9 +44,11 @@ export default function User () {
                     return (
                         <tr key={index} className="text-left border">
                         <td>{index + 1}</td>
-                        <td>{user.email}</td>
-                        <td>{user.first_name}</td>
-                        <td>{user.last_name}</td>
+                        <td>{user.Username}</td>
+                        <td>{user.Email}</td>
+                        <td>{user.Jenis_kelamin}</td>
+                        <td>{user.Dibuat}</td>
+                        <td>{user.Diupdate}</td>
                         <td>
                             <img className="rounded-full h-5 w-5" src={user.avatar} alt={user.avatar} />
                         </td>
