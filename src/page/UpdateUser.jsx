@@ -2,19 +2,19 @@ import React from "react";
 import Input from "../komponen/input";
 import Button from "../komponen/button";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import Select from ".komponen./Select";
 
 export default function UpdateUser() {
   let navigate = useNavigate();
+  let {id} = useParams ();
   const [isLoading, setIsLoading] = React.useState(false);
   const [users, setUsers] = React.useState({
     username: "",
     name: "",
     jenis_Kelamin: "",
     email: "",
-    password: "",
-    password_confirmation: "",
+    
   });
   const handleChange = (e) => {
     setUsers((users) => {
@@ -29,21 +29,47 @@ export default function UpdateUser() {
     console.log(users);
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "https://belajar-react.smkmadinatulquran.sch.id/api/users/create",
+      const response = await axios.put(
+        `https://belajar-react.smkmadinatulquran.sch.id/api/users/update/${id}`,
         users
       );
       setIsLoading(false);
-      // return navigate ('/users')
+      return navigate ('/users')
     } catch (err) {
       console.log(err);
-      // setIsLoading(false)
+      setIsLoading(false)
       alert("terjadi error ");
     }
   };
+  
+  const getDetailUser = async() => {
+    try{
+        const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/detail/${id}`)
+   
+   console.log( 'response =>',response.data);
+
+   const dataUser = response.data.data;
+   console.log(dataUser);
+   setUsers(() => {
+    return {
+        username: dataUser.username,
+        email: dataUser.email,
+        name: dataUser.name,
+        jenis_Kelamin: dataUser.jenis_Kelamin,
+    };
+   });
+    }catch (err){
+
+    }
+  }
+
+  React.useEffect(() => {
+    
+    getDetailUser()
+  },[])
   return (
     <div>
-      <h1>Tambah User</h1>
+      <h1>Update User</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <Input
@@ -78,19 +104,9 @@ export default function UpdateUser() {
             name={"jenis_kelamin"}
             onChange={handleChange}
           />
-          <Input
-            values={users.password}
-            label={"Password"}
-            name={"password"}
-            onChange={handleChange}
-          />
-          <Input
-            values={users.password_confirmation}
-            label={"Password confirmation"}
-            name={"password_confirmation"}
-            onChange={handleChange}
-          />
-          <Button title={isLoading ? "sedang menyimpan" : "simpan"} />
+         
+         
+          <Button title={isLoading ? "sedang menyimpan" : "Perbarui"} />
             {/* <Button onClick={() => {
                 return navigate (
                     

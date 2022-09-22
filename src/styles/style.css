@@ -1,5 +1,51 @@
 .input{
-    background-color: hotpink;
+    background-color: 'red';
+    padding: 5px, 10px;
+    border: 1px solid red;
+}
+
+.layout{
+    border: 1px solid red;
+    padding: 10px;
+    margin-bottom: 10px
+}
+
+.button{
+    color: aliceblue;
     padding: 5px 10px;
-    border: 1px solid hotpink;
+    border: 1px solid black;
+    width: 230px;
+    border-radius: 4px;
+    margin: 5px 5px 5px;
+    margin-left: 26.6%;
+}
+.button:hover{
+    color: deepskyblue;
+    background-color: black;
+    border: 1px solid skyblue;
+
+}
+
+.input{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-text{
+    padding: 5px 5px;
+    border-radius: 5px;
+    width: 35%;
+    margin-top: 5px;
+}
+.error{
+    color: red;
+    font-style: italic;
+    font-size: 10px;
+    font-weight: bold;
+}
+form{
+    margin-left: 10px;
+    border: 1px solid aqua;
+    width: 500px;
 }
