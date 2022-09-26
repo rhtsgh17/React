@@ -1,25 +1,17 @@
+
+
 import React from "react";
 
+function Button({ title, add, ...props }) {
+  return (
+    <button
+      className={`border border- p-2 px-6 hover:bg-black hover:text-white ${add}`}
 
-export default function Button({
-    title,
-    color = "red",
-    disabled,
-  ...props
-  }) {
-    return (
-      <React.Fragment>
-        <button
-        disabled={disabled}
-         {...props}
-          style={{
-            backgroundColor: "color",
-            opacity: disabled ? 0.5 : 1
-          }}
-          className="button-red"
-        >
-          {title}
-        </button>
-      </React.Fragment>
-    );
-  }
+      {...props}
+    >
+      {title}
+    </button>
+  );
+}
+
+export default Button;

@@ -1,119 +1,352 @@
 import React from "react";
+import Swal from "sweetalert2";
 import Input from "../komponen/input";
 import Button from "../komponen/button";
+import Select from "../komponen/select";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-// import Select from ".komponen./Select";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
-export default function UpdateUser() {
-  let navigate = useNavigate();
-  let {id} = useParams ();
+function CreateUser() {
+  const { id } = useParams();
+
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
-  const [users, setUsers] = React.useState({
-    username: "",
-    name: "",
-    jenis_Kelamin: "",
-    email: "",
-    
+  const [isReset, setIsReset] = React.useState(false);
+  const [users, setUser] = React.useState({
+    kode_penulis: "33333",
+    judul_buku: "",
+    nama_pengarang: "",
+    nama_penerbit_buku: "",
+    ketebalan_buku: "",
+    tahun_terbit_buku: parseInt(),
+    sinopsis: "",
   });
+
   const handleChange = (e) => {
-    setUsers((users) => {
-      return {
-        ...users,
-        [e.target.name]: e.target.value,
-      };
+    setUser((users) => {
+      return { ...users, [e.target.name]: e.target.value };
     });
+    console.log("tes");
+  };
+  const [errorForm, setErrorForm] = React.useState("");
+  const [error, setError] = React.useState({});
+  const [errorSin, setErrorSin] = React.useState("");
+  const getResetUser = async (id) => {
+    try {
+      setIsReset(true)
+      const response = await axios.get(
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=33333`
+      );
+      const dataUser = response.data.data;
+      console.log(dataUser);
+      setIsReset(false)
+      setUser(() => {
+        return {
+          kode_penulis: "33333",
+          judul_buku: dataUser.judul_buku,
+          nama_pengarang: dataUser.nama_pengarang,
+          nama_penerbit_buku: dataUser.nama_penerbit_buku,
+          ketebalan_buku: dataUser.ketebalan_buku,
+          tahun_terbit_buku: dataUser.tahun_terbit_buku,
+          sinopsis: dataUser.sinopsis,
+        };
+      });
+    } catch (error) {}
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(users);
+    if (users.sinopsis.length <= 10) {
+      setErrorSin(" minimal 30 karater");
+    } else {
+      setErrorSin("");
+    }
+
+    if (
+      users.judul_buku === "" ||
+      users.ketebalan_buku === "" ||
+      users.nama_penerbit_buku === "" ||
+      users.nama_pengarang === "" ||
+      users.sinopsis.length < 10 ||
+      users.tahun_terbit_buku < 2003 ||
+      users.tahun_terbit_buku > 2021
+    ) {
+      setErrorForm("Ada Formulir Kosong");
+      if (users.ketebalan_buku === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            ketebalan_buku: true,
+          };
+        });
+      }
+      if (users.judul_buku === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            judul_buku: true,
+          };
+        });
+      }
+      if (users.nama_penerbit_buku === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            nama_penerbit_buku: true,
+          };
+        });
+      }
+      if (users.nama_pengarang === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            nama_pengarang: true,
+          };
+        });
+      }
+      if (users.sinopsis.length <= 10) {
+        setError((errors) => {
+          return {
+            ...errors,
+            sinopsis: true,
+          };
+        });
+      }
+      if (users.tahun_terbit_buku < 2003 || users.tahun_terbit_buku > 2021) {
+        setError((errors) => {
+          return {
+            ...errors,
+            tahun_terbit_buku: true,
+          };
+        });
+      }
+      return;
+    }
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/update/${id}`,
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=3333`,
         users
       );
       setIsLoading(false);
-      return navigate ('/users')
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "Sukses Memperbarui Buku",
+      });
+      return navigate("/Admin/Buku");
     } catch (err) {
       console.log(err);
-      setIsLoading(false)
-      alert("terjadi error ");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "error",
+        title: "Gagal memperbarui buku",
+      });
+      setIsLoading(false);
+      setUser({
+        kode_penulis: "33333",
+        judul_buku: "",
+        nama_pengarang: "",
+        nama_penerbit_buku: "",
+        ketebalan_buku: "",
+        tahun_terbit_buku: "",
+        sinopsis: "",
+      });
     }
   };
-  
-  const getDetailUser = async() => {
-    try{
-        const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/detail/${id}`)
-   
-   console.log( 'response =>',response.data);
 
-   const dataUser = response.data.data;
-   console.log(dataUser);
-   setUsers(() => {
-    return {
-        username: dataUser.username,
-        email: dataUser.email,
-        name: dataUser.name,
-        jenis_Kelamin: dataUser.jenis_Kelamin,
-    };
-   });
-    }catch (err){
+  const handleBlur = (e) => {
+    if (e.target.value === "")
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: true,
+        };
+      });
+    else
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: false,
+        };
+      });
+  };
 
-    }
-  }
-
+  const getDetailUser = async (id) => {
+    try {
+      const response = await axios.get(
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=33333`
+      );
+      const dataUser = response.data.data;
+      console.log(dataUser);
+      setUser(() => {
+        return {
+          kode_penulis: "33333",
+          judul_buku: dataUser.judul_buku,
+          nama_pengarang: dataUser.nama_pengarang,
+          nama_penerbit_buku: dataUser.nama_penerbit_buku,
+          ketebalan_buku: dataUser.ketebalan_buku,
+          tahun_terbit_buku: dataUser.tahun_terbit_buku,
+          sinopsis: dataUser.sinopsis,
+        };
+      });
+    } catch (error) {}
+  };
   React.useEffect(() => {
-    
-    getDetailUser()
-  },[])
+    getDetailUser(id);
+  }, []);
+
   return (
-    <div>
-      <h1>Update User</h1>
-      <form onSubmit={handleSubmit}>
+    <React.Fragment>
+      <p className="text-center font-bold uppercase">Register</p>
+      <div className="flex justify-center flex-col">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-3 w-full h-[510px] py-5"
+        >
+          <p className="w-full bg-green-600 text-center text-white px-5">
+            {errorForm}
+          </p>
+          <div className="flex flex-row space-between space-x-[45px]">
+            <Input
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isError={error.nama_pengarang}
+              value={users.nama_pengarang}
+              label="Name"
+              type="text"
+              name="nama_pengarang"
+              id="name"
+              placeholder="Name"
+            />
+
+            <Input
+              onBlur={handleBlur}
+              isError={error.nama_penerbit_buku}
+              onChange={handleChange}
+              value={users.nama_penerbit_buku}
+              label="Penerbit"
+              type="text"
+              name="nama_penerbit_buku"
+              id="Penerbit"
+              placeholder="Penerbit"
+            />
+          </div>
+          <div>
+            <Input
+              onBlur={handleBlur}
+              isError={error.judul_buku}
+              onChange={handleChange}
+              value={users.judul_buku}
+              label="Judul buku"
+              type="text"
+              name="judul_buku"
+              id="Judul buku"
+              placeholder="Judul buku"
+            />
+          </div>
+          <div>
+            <Input
+              onChange={handleChange}
+              value={users.ketebalan_buku}
+              onBlur={handleBlur}
+              isError={error.ketebalan_buku}
+              label="Ketebalan buku"
+              type="text"
+              name="ketebalan_buku"
+              id="ketebalan buku"
+              placeholder="ketebalan buku"
+            />
+          </div>
+          <div>
+            <Input
+              onChange={handleChange}
+              value={users.sinopsis}
+              onBlur={handleBlur}
+              isError={error.sinopsis}
+              label="Sinopsis"
+              type="text"
+              name="sinopsis"
+              id="Sinopsis"
+              placeholder="Sinopsis"
+            />
+            <p className="text-white text-[10px] w-full bg-green-600 text-center">
+              {errorSin}
+            </p>
+          </div>
+          <div className="flex flex-row space-between space-x-[45px]">
+            <Input
+              onChange={handleChange}
+              value={users.tahun_terbit_buku}
+              onBlur={handleBlur}
+              isError={error.tahun_terbit_buku}
+              label="Tahun Terbit"
+              type="number"
+              name="tahun_terbit_buku"
+              id="tahun_terbit_buku"
+              placeholder="Tahun Terbit"
+            />
+            <Input
+              onChange={handleChange}
+              value={users.kode_penulis}
+              isError={""}
+              label="Kode Penulis"
+              type="number"
+              name="kode_penulis"
+              id="Kode Penulis"
+              placeholder="Kode Penulis"
+            />
+          </div>
+
+          <div className="flex flex-row justify-between">
+            <Button
+              onClick={() => {
+                return navigate(`/Admin/Books`, {
+                  replace: true,
+                });
+              }}
+              title="Cancel"
+            >
+            </Button>
+            <Button
+              title={isLoading ? "Submitting" : "Submit"}
+            />
+          </div>
+        </form>
         <div>
-          <Input
-            values={users.username}
-            label={"Username"}
-            name={"username"}
-            onChange={handleChange}
-          />
-          <Input
-            values={users.name}
-            label={"Name"}
-            name={"name"}
-            onChange={handleChange}
-          />
-          <Input
-            values={users.email}
-            label={"email"}
-            type="email"
-            name={"email"}
-            onChange={handleChange}
-          />
-
-          <select>
-            <option>Pilih</option>
-            <option value={"Laki-laki"}>Laki-laki</option>
-            <option value={"Perempuan"}>Perempuan</option>
-          </select>
-
-          <Input
-            values={users.jenis_kelamin}
-            label={"Jenis kelamin"}
-            name={"jenis_kelamin"}
-            onChange={handleChange}
-          />
-         
-         
-          <Button title={isLoading ? "sedang menyimpan" : "Perbarui"} />
-            {/* <Button onClick={() => {
-                return navigate (
-                    
-                )
-            }}></Button> */}
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              getResetUser(id);
+            }}
+            title={isReset ? "Reseting" : "Reset"}
+          ></Button>
         </div>
-      </form>
-    </div>
+      </div>
+    </React.Fragment>
   );
 }
+
+export default CreateUser;

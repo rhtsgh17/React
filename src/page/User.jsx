@@ -1,100 +1,91 @@
 import React from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-// import Button from "../komponen/button"
-import Button  from "../komponen/button";
+import Button from "../komponen/button";
+import Card from "../komponen/card";
+import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 
-export default function User() {
+const User = () => {
   const [users, setUsers] = React.useState([]);
-  //state untuk menyimpan data user dari api
-  let navigate = useNavigate()
-
-  const [page, setPage] = React.useState(100);
-  const [perPage, setPerPage] = React.useState(2);
+  const [page, setPage] = React.useState(10);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const getUserHandle = async () => {
     try {
       const response = await axios.get(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`
+        `https://api-react-2.herokuapp.com/api/perpustakaan?kode=33333`
       );
-      console.log("response => ", response.data);
-      setUsers(response.data.data);
+      console.log("Response =>", response.data.data.data);
+
+      setUsers(response.data.data.data);
       setPage(response.data.page);
-      setPerPage(response.data.per_page);
     } catch (err) {}
   };
-
-  console.log("user => ", users);
-  console.log("page => ", page);
-  console.log("per page => ", perPage);
+  const getUserDelete = async (id) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.delete(
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=33333`
+      );
+      getUserHandle();
+      setIsLoading(false);
+      console.log(response.data.data.data);
+    } catch (err) {}
+  };
 
   React.useEffect(() => {
     getUserHandle();
   }, [page]);
+  const navigate = useNavigate();
 
+  console.log("Users =>", users);
+  console.log("Page =>", page);
   return (
-    <div>
-      <h1>Tabel User</h1>
-      <button className="bg-[orange] rounded-lg px-3 py-2">
-        {" "}
-        <Link to="/user/create">Tambah user</Link>
-      </button>
-
-      <table className="table-auto ">
-        <thead>
-          <tr className="text-left border">
-            <th className="pr-5">No</th>
-            <th className="pr-5">User Name</th>
-            <th className="pr-5">Email</th>
-            <th className="pr-5">Jenis Kelamin</th>
-            <th className="pr-5">Stored At</th>
-            <th className="pr-5">Updated At</th> 
-           <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => {
-            return (
-              <tr key={index} className="border">
-                <td>{index + 1}</td>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.jenis_kelamin}</td>
-                <td>{user.stored_at}</td>
-                <td>{user.updated_at}</td>
-                <td>
-              <Button onClick={() => {
-                return navigate(`/user/update/${user.id}`)
-              }} color="blue" title={"Edit"}/>
-                <Button color="red" title={"Delete"}/>
-            </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <p>Saat ini di Page {page}</p>
-
-      <div className="flex items-center justify-center">
-        <button
-          className="mx-5"
-          onClick={() => {
-            console.log("running?");
-            setPage(page - 1);
-          }}
-        >
-          Previos
-        </button>
-        <button
-          className="mx-5"
-          onClick={() => {
-            console.log("running?");
-            setPage(page + 1);
-          }}
-        >
-          Next
-        </button>
+    <section>
+      <div className="flex flex-row justify-between py-3">
+        <h1 className="font-bold place-self-center">Home</h1>
+        <div className="flex space-x-3">
+          <Button
+            onClick={() => {
+              return navigate(`/Admin/Buku/Add`, {
+                replace: true,
+              });
+            }}
+            title="Buku"
+          >
+            Add User
+          </Button>
+        </div>
       </div>
-    </div>
+
+      <section className="w-full flex justify-center">
+        <Card>
+          <Button
+            title="Edit"
+            onClick={() => {
+              return navigate(`/Admin/Buku/${users.id}/update`, {
+                replace: true,
+              });
+            }}
+          />
+          <Button
+            title="Detail Buku"
+            add=""
+            onClick={() => {
+              return navigate(`/Admin/Buku/${users.id}/view`, {
+                replace: true,
+              });
+            }}
+          />
+          <Button
+            onClick={() => {
+              getUserDelete(users.id);
+            }}
+            title={isLoading ? "Deleting" : "Delete"}
+          ></Button>
+        </Card>
+      </section>
+    </section>
   );
-}
+};
+
+export default User;

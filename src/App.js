@@ -1,24 +1,41 @@
-import React from 'react';
-import {Routes, Route, Navigate} from "react-router-dom"
-import User from './page/User';
-import UpdateUser from './page/CreateUser';
-import DetailUser from './page/detailUser';
-import CreateUser from './page/CreateUser';
+import React from "react";
+import { Route, Routes, Navigate, NavLink } from "react-router-dom";
+import User from "./page/User";
+import Createuser from "./page/CreateUser";
+import Updateuser from "./page/UpdateUser";
+import Userdetail from "./page/Userdetail";
+import Screen from "./page/Screen";
+import Dashboard from "./page/Dashboard";
+import About from "./page/About";
+
 function App() {
   return (
     <React.Fragment>
-      <h1 className="bg-orange-400 flex items-center justify-center">Belajar API</h1>
-      <Routes>
-        
-        <Route path='/user' element ={<User/>}/>
-        <Route path='/user/:id/detail' element ={<DetailUser/>}/>
-        <Route path='/user/create' element ={<CreateUser/>}/>
-        <Route path='/user/update/:id' element ={<UpdateUser/>}/>
-        <Route path='*' element ={<Navigate to="user" replace={true}/>}/>
-      </Routes>
+      <div className="grid grid-cols-7 justify-center">
+        <section className="col-span-1"></section>
+        <div className="flex flex-col p-5 space-y-10  text-red fixed h-screen w-[10%]">
+          <NavLink to={"/Admin/Dashboard"}>Dashboard</NavLink>
+          <NavLink to={"/Admin/Buku"}>Buku</NavLink>
+          <NavLink to={"/Admin/About"}>About</NavLink>
+        </div>
+        <div className="col-span-6 pr-3 py-5">
+          <Routes>
+            <Route path="/" element={<Screen />}>
+              <Route path="/Admin/Dashboard" element={<Dashboard />} />
+              <Route path="/Admin/Buku" element={<User />}></Route>
+              <Route path="/Admin/Buku/Add" element={<Createuser />} />
+              <Route path="/Admin/Buku/:id/update" element={<Updateuser />} />
+              <Route path="/Admin/Buku/:id/view" element={<Userdetail />} />
+              <Route path="/Admin/About" element={<About />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace={true} />} />
+          </Routes>
+        </div>
+      </div>
     </React.Fragment>
   );
 }
 
-export default App;
+export default App
 
