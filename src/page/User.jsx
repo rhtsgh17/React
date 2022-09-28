@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-no-undef */
 import React from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 // import Button from "../komponen/button"
 import Button  from "../komponen/button";
 
@@ -11,9 +13,11 @@ export default function User() {
 
   const [page, setPage] = React.useState(100);
   const [perPage, setPerPage] = React.useState(2);
-
+  const [isFetchUser, setIsFetchUser] = React.useState(false);
+ 
   const getUserHandle = async () => {
     try {
+      setIsFetchUser(true);
       const response = await axios.get(
         `https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`
       );
@@ -21,9 +25,47 @@ export default function User() {
       setUsers(response.data.data);
       setPage(response.data.page);
       setPerPage(response.data.per_page);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }finally{
+      setIsFetchUser(false);
+    }
   };
-
+const deleteUserHandle = (id) => {
+  Swal.fire({
+    title: 'Maneh serius?',
+    text: "Anda tidak akan dapat mengembalikan ini!",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#adadad',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'yakin mau, delete'
+  }).then(async(result) => {
+    if (result.isConfirmed) {
+     try{
+      const response = await axios.delete(
+        `https://belajar-react.smkmadinatulquran.sch.id/api/users/hapus/${id}`
+    );
+    console.log('yes delete')
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    );
+    getUserHandle()
+     }catch (err) {
+      Swal.fire(
+        'Gagal',
+        'User tidak ditemukan',
+        'error'
+      )
+     }
+     
+    }
+  })
+  
+  console.log('button delete  berjalan', id)
+}
   console.log("user => ", users);
   console.log("page => ", page);
   console.log("per page => ", perPage);
@@ -53,7 +95,10 @@ export default function User() {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => {
+          {!isFetchUser ? (
+          <tr>
+            <td colSpan={9}><Skeleton count={5} /></td>
+            </tr> ) : users.map((user, index) => {
             return (
               <tr key={index} className="border">
                 <td>{index + 1}</td>
@@ -66,7 +111,9 @@ export default function User() {
               <Button onClick={() => {
                 return navigate(`/user/update/${user.id}`)
               }} color="blue" title={"Edit"}/>
-                <Button color="red" title={"Delete"}/>
+                <Button onClick={() => {
+                  deleteUserHandle(user.id)
+                }} color="red" title={"Delete"}/>
             </td>
               </tr>
             );

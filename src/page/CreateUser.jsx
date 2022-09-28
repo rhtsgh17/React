@@ -3,6 +3,7 @@ import Input from "../komponen/input";
 import Button from "../komponen/button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Skeleton from 'react-loading-skeleton'
 // import Select from ".komponen./Select";
 
 export default function UpdateUser() {
