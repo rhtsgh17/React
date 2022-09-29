@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 // import Button from "../komponen/button"
 import Button  from "../komponen/button";
+import Skeleton from 'react-loading-skeleton';
 
 export default function User() {
   const [users, setUsers] = React.useState([]);
@@ -23,8 +24,8 @@ export default function User() {
       );
       console.log("response => ", response.data);
       setUsers(response.data.data);
-      setPage(response.data.page);
-      setPerPage(response.data.per_page);
+      // setPage(response.data.page);
+      // setPerPage(response.data.per_page);
     } catch (err) {
       console.log(err);
     }finally{
@@ -37,7 +38,7 @@ const deleteUserHandle = (id) => {
     text: "Anda tidak akan dapat mengembalikan ini!",
     icon: 'question',
     showCancelButton: true,
-    confirmButtonColor: '#adadad',
+    confirmButtonColor: '#00ff00',
     cancelButtonColor: '#d33',
     confirmButtonText: 'yakin mau, delete'
   }).then(async(result) => {
@@ -95,10 +96,10 @@ const deleteUserHandle = (id) => {
           </tr>
         </thead>
         <tbody>
-          {!isFetchUser ? (
+          {isFetchUser ? 
           <tr>
             <td colSpan={9}><Skeleton count={5} /></td>
-            </tr> ) : users.map((user, index) => {
+            </tr> : users.map((user, index) => {
             return (
               <tr key={index} className="border">
                 <td>{index + 1}</td>
