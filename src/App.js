@@ -1,7 +1,7 @@
 import React from 'react';
 import {Routes, Route, Navigate} from "react-router-dom"
 import User from './page/User';
-import UpdateUser from './page/CreateUser';
+import UpdateUser from './page/UpdateUser';
 import DetailUser from './page/detailUser';
 import CreateUser from './page/CreateUser';
 function App() {

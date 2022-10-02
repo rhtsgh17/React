@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 // import Button from "../komponen/button"
 import Button  from "../komponen/button";
 import Skeleton from 'react-loading-skeleton';
+import { getAllUser } from "../api/user";
 
 export default function User() {
   const [users, setUsers] = React.useState([]);
@@ -19,9 +20,7 @@ export default function User() {
   const getUserHandle = async () => {
     try {
       setIsFetchUser(true);
-      const response = await axios.get(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`
-      );
+      const response = await getAllUser(page)
       console.log("response => ", response.data);
       setUsers(response.data.data);
       // setPage(response.data.page);

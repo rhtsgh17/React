@@ -3,18 +3,18 @@ import Input from "../komponen/input";
 import Button from "../komponen/button";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { detailUser, updateUser } from "../api/user";
 // import Select from ".komponen./Select";
 
 export default function UpdateUser() {
   let navigate = useNavigate();
-  let {id} = useParams ();
+  let { id } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
   const [users, setUsers] = React.useState({
-    username: "",
+    username: "rrr",
     name: "",
     jenis_Kelamin: "",
     email: "",
-    
   });
   const handleChange = (e) => {
     setUsers((users) => {
@@ -29,63 +29,62 @@ export default function UpdateUser() {
     console.log(users);
     try {
       setIsLoading(true);
-      const response = await axios.put(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/update/${id}`,
-        users
-      );
+      const response = await updateUser(id, users);
       setIsLoading(false);
-      return navigate ('/users')
+      return navigate("/users");
     } catch (err) {
       console.log(err);
-      setIsLoading(false)
+      setIsLoading(false);
       alert("terjadi error ");
     }
   };
-  
-  const getDetailUser = async() => {
-    try{
-        const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/detail/${id}`)
-   
-   console.log( 'response =>',response.data);
 
-   const dataUser = response.data.data;
-   console.log(dataUser);
-   setUsers(() => {
-    return {
-        username: dataUser.username,
-        email: dataUser.email,
-        name: dataUser.name,
-        jenis_Kelamin: dataUser.jenis_Kelamin,
-    };
-   });
-    }catch (err){
+  const getDetailUser = async () => {
+    try {
+      const response = await detailUser(id);
 
-    }
-  }
+      console.log("response =>", response.data);
+
+      const dataUser = response.data.data;
+      console.log(dataUser);
+      setUsers(() => {
+        return {
+          username: dataUser.username,
+          name: dataUser.name,
+          email: dataUser.email,
+
+          jenis_Kelamin: dataUser.jenis_Kelamin,
+        };
+      });
+    } catch (err) {}
+  };
 
   React.useEffect(() => {
-    
-    getDetailUser()
-  },[])
+    console.log("jalan");
+    getDetailUser(id);
+  }, []);
+
   return (
     <div>
       <h1>Update User</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <Input
-            values={users.username}
+            value={users.username}
+            type="text"
+            placeholder="Username"
             label={"Username"}
             name={"username"}
             onChange={handleChange}
           />
           <Input
-            values={users.name}
+            value={users.name}
             label={"Name"}
             name={"name"}
             onChange={handleChange}
           />
           <Input
-            values={users.email}
+            value={users.email}
             label={"email"}
             type="email"
             name={"email"}
@@ -104,10 +103,9 @@ export default function UpdateUser() {
             name={"jenis_kelamin"}
             onChange={handleChange}
           />
-         
-         
+
           <Button title={isLoading ? "sedang menyimpan" : "Perbarui"} />
-            {/* <Button onClick={() => {
+          {/* <Button onClick={() => {
                 return navigate (
                     
                 )

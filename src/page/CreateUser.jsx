@@ -3,6 +3,7 @@ import Input from "../komponen/input";
 import Button from "../komponen/button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { createUser } from "../api/user";
 
 // import Select from ".komponen./Select";
 
@@ -32,12 +33,9 @@ export default function UpdateUser() {
     console.log(users);
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "https://belajar-react.smkmadinatulquran.sch.id/api/users/create",
-        users
-      );
+      const response = await createUser(users);
       setIsLoading(false);
-      // return navigate ('/users')
+      return navigate ('/users')
     } catch (err) { 
 
       console.log(err);
