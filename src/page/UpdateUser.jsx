@@ -6,7 +6,7 @@ import Select from "../komponen/select";
 import axios from "axios";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
-function CreateUser() {
+function Createuser() {
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -33,13 +33,13 @@ function CreateUser() {
   const [errorSin, setErrorSin] = React.useState("");
   const getResetUser = async (id) => {
     try {
-      setIsReset(true)
+      setIsReset(true);
       const response = await axios.get(
         `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=33333`
       );
       const dataUser = response.data.data;
       console.log(dataUser);
-      setIsReset(false)
+      setIsReset(false);
       setUser(() => {
         return {
           kode_penulis: "33333",
@@ -57,7 +57,7 @@ function CreateUser() {
     e.preventDefault();
     console.log(users);
     if (users.sinopsis.length <= 10) {
-      setErrorSin(" minimal 30 karater");
+      setErrorSin("Sinopsis harus berisikan minimal 30 karater");
     } else {
       setErrorSin("");
     }
@@ -68,7 +68,7 @@ function CreateUser() {
       users.nama_penerbit_buku === "" ||
       users.nama_pengarang === "" ||
       users.sinopsis.length < 10 ||
-      users.tahun_terbit_buku < 2003 ||
+      users.tahun_terbit_buku < 2002 ||
       users.tahun_terbit_buku > 2021
     ) {
       setErrorForm("Ada Formulir Kosong");
@@ -112,7 +112,7 @@ function CreateUser() {
           };
         });
       }
-      if (users.tahun_terbit_buku < 2003 || users.tahun_terbit_buku > 2021) {
+      if (users.tahun_terbit_buku < 2002 || users.tahun_terbit_buku > 2021) {
         setError((errors) => {
           return {
             ...errors,
@@ -125,7 +125,7 @@ function CreateUser() {
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=3333`,
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=33333`,
         users
       );
       setIsLoading(false);
@@ -143,14 +143,14 @@ function CreateUser() {
 
       Toast.fire({
         icon: "success",
-        title: "Sukses Memperbarui Buku",
+        title: "Success memperbarui buku",
       });
-      return navigate("/Admin/Buku");
+      return navigate("/Admin/Books");
     } catch (err) {
       console.log(err);
       const Toast = Swal.mixin({
         toast: true,
-        position: "top-end",
+        position: "center",
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,
@@ -220,13 +220,13 @@ function CreateUser() {
 
   return (
     <React.Fragment>
-      <p className="text-center font-bold uppercase">Register</p>
+      <p className="text-center font-bold uppercase">Memperbarui Buku</p>
       <div className="flex justify-center flex-col">
         <form
           onSubmit={handleSubmit}
           className="space-y-3 w-full h-[510px] py-5"
         >
-          <p className="w-full bg-green-600 text-center text-white px-5">
+          <p className="w-full bg-orange-600 text-center text-white px-5">
             {errorForm}
           </p>
           <div className="flex flex-row space-between space-x-[45px]">
@@ -235,11 +235,11 @@ function CreateUser() {
               onBlur={handleBlur}
               isError={error.nama_pengarang}
               value={users.nama_pengarang}
-              label="Name"
+              label="Nama"
               type="text"
               name="nama_pengarang"
-              id="name"
-              placeholder="Name"
+              id="nama"
+              placeholder="Nama"
             />
 
             <Input
@@ -247,11 +247,11 @@ function CreateUser() {
               isError={error.nama_penerbit_buku}
               onChange={handleChange}
               value={users.nama_penerbit_buku}
-              label="Penerbit"
+              label="Publick"
               type="text"
               name="nama_penerbit_buku"
-              id="Penerbit"
-              placeholder="Penerbit"
+              id="Publick"
+              placeholder="Publick"
             />
           </div>
           <div>
@@ -260,11 +260,11 @@ function CreateUser() {
               isError={error.judul_buku}
               onChange={handleChange}
               value={users.judul_buku}
-              label="Judul buku"
+              label="judul_buku"
               type="text"
               name="judul_buku"
-              id="Judul buku"
-              placeholder="Judul buku"
+              id="judul_buku"
+              placeholder="judul_buku"
             />
           </div>
           <div>
@@ -273,11 +273,11 @@ function CreateUser() {
               value={users.ketebalan_buku}
               onBlur={handleBlur}
               isError={error.ketebalan_buku}
-              label="Ketebalan buku"
+              label="ketebalan_buku"
               type="text"
               name="ketebalan_buku"
-              id="ketebalan buku"
-              placeholder="ketebalan buku"
+              id="ketebalan_buku"
+              placeholder="ketebalan_buku"
             />
           </div>
           <div>
@@ -292,7 +292,7 @@ function CreateUser() {
               id="Sinopsis"
               placeholder="Sinopsis"
             />
-            <p className="text-white text-[10px] w-full bg-green-600 text-center">
+            <p className="text-white text-[10px] w-full bg-orange-600 text-center">
               {errorSin}
             </p>
           </div>
@@ -302,21 +302,21 @@ function CreateUser() {
               value={users.tahun_terbit_buku}
               onBlur={handleBlur}
               isError={error.tahun_terbit_buku}
-              label="Tahun Terbit"
+              label="tahun_terbit_buku"
               type="number"
               name="tahun_terbit_buku"
               id="tahun_terbit_buku"
-              placeholder="Tahun Terbit"
+              placeholder="tahun_terbit_buku"
             />
             <Input
               onChange={handleChange}
               value={users.kode_penulis}
               isError={""}
-              label="Kode Penulis"
+              label="kode_penulis"
               type="number"
               name="kode_penulis"
-              id="Kode Penulis"
-              placeholder="Kode Penulis"
+              id="kode_penulis"
+              placeholder="kode_penulis"
             />
           </div>
 
@@ -328,11 +328,8 @@ function CreateUser() {
                 });
               }}
               title="Cancel"
-            >
-            </Button>
-            <Button
-              title={isLoading ? "Submitting" : "Submit"}
-            />
+            ></Button>
+            <Button title={isLoading ? "Submitting" : "Submit"} />
           </div>
         </form>
         <div>
@@ -349,4 +346,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default Createuser;

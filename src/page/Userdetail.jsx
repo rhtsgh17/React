@@ -2,17 +2,18 @@ import React from "react";
 import Swal from "sweetalert2";
 import Input from "../komponen/input";
 import Button from "../komponen/button";
+import Select from "../komponen/select";
 import axios from "axios";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { data } from "autoprefixer";
 
-function CreateUser() {
+function Createuser() {
   const navigate = useNavigate();
 
   const { id } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
   const [users, setUser] = React.useState({
-    kode_penulis: "33333",
+    kode_penulis: "10102",
     judul_buku: "",
     nama_pengarang: "",
     nama_penerbit_buku: "",
@@ -34,7 +35,7 @@ function CreateUser() {
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=33333`,
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=10102`,
         users
       );
       setIsLoading(false);
@@ -52,14 +53,14 @@ function CreateUser() {
 
       Toast.fire({
         icon: "success",
-        title: "Sukses memperbarui",
+        title: "Success Memperbarui buku",
       });
       return navigate("/Admin/Books");
     } catch (err) {
       console.log(err);
       const Toast = Swal.mixin({
         toast: true,
-        position: "top-end",
+        position: "center",
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,
@@ -71,7 +72,7 @@ function CreateUser() {
 
       Toast.fire({
         icon: "error",
-        title: "gagal memperbarui",
+        title: "Gagal memperbarui buku",
       });
       setIsLoading(false);
       setUser({
@@ -111,34 +112,34 @@ function CreateUser() {
   }, []);
   return (
     <React.Fragment>
-      <p className="text-center font-bold uppercase mt-10">Register</p>
+      <p className="text-center font-bold uppercase mt-10">Book Detail</p>
       <div className="flex justify-center">
         <form
           onSubmit={handleSubmit}
-          className="mt-5 space-y-5 w-[400px] h-[510px] border border-green p-5"
+          className="mt-5 space-y-5 w-[400px] h-[510px] border border-orange p-5"
         >
           <div className="flex flex-row space-between space-x-[45px]">
             <Input
               onChange={handleChange}
               value={users.nama_pengarang}
               isError={""}
-              label="Name"
+              label="Nama"
               type="text"
               disabled
               name="nama_pengarang"
-              id="name"
-              placeholder="Name"
+              id="nama"
+              placeholder="Nama"
             />
             <Input
               onChange={handleChange}
               value={users.nama_penerbit_buku}
               isError={""}
-              label="Penerbit"
+              label="Publick"
               type="text"
               disabled
               name="nama_penerbit_buku"
-              id="Penerbit"
-              placeholder="Penerbit"
+              id="Publick"
+              placeholder="Publick"
             />
           </div>
           <div>
@@ -146,12 +147,12 @@ function CreateUser() {
               onChange={handleChange}
               value={users.judul_buku}
               isError={""}
-              label="Book Thickness"
+              label="judul_buku"
               type="text"
               disabled
               name="judul_buku"
-              id="Book Title"
-              placeholder="Book Title"
+              id="judul_buku"
+              placeholder="judul_buku"
             />
           </div>
           <div>
@@ -159,12 +160,12 @@ function CreateUser() {
               onChange={handleChange}
               value={users.ketebalan_buku}
               isError={""}
-              label="Book Thickness"
+              label="ketebalan_buku"
               type="text"
               disabled
               name="ketebalan_buku"
-              id="BookThickness"
-              placeholder="BookThickness"
+              id="ketebalan_buku"
+              placeholder="ketebalan_buku"
             />
           </div>
           <div>
@@ -185,33 +186,30 @@ function CreateUser() {
               onChange={handleChange}
               value={users.tahun_terbit_buku}
               isError={""}
-              label="Year Published"
+              label="tahun_terbit_buku"
               type="number"
               disabled
               name="tahun_terbit_buku"
               id="tahun_terbit_buku"
-              placeholder="Year Published"
+              placeholder="tahun_terbit_buku"
             />
             <Input
               onChange={handleChange}
               value={users.kode_penulis}
               isError={""}
-              label="Author Code"
+              label="kode_penulis"
               type="number"
               disabled
               name="kode_penulis"
-              id="AuthorCode"
-              placeholder="AuthorCode"
+              id="kode_penulis"
+              placeholder="kode_penulis"
             />
           </div>
 
           <div className="flex flex-row justify-between">
-            <NavLink
-              to="/Admin/Books"
-              className={`border border-red p-2 px-5`}
-            >
-              Back
-            </NavLink>
+            <Button title="Back" onClick={() => {
+              return navigate("/Admin/Books", {replace: true})
+            }}></Button>
           </div>
         </form>
       </div>
@@ -219,4 +217,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default Createuser;
