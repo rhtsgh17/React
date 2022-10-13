@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import Button  from "../komponen/button";
 import Skeleton from 'react-loading-skeleton';
 import { getAllUser } from "../api/user";
+import Cookies from "js-cookie";
 
 export default function User() {
   const [users, setUsers] = React.useState([]);
@@ -81,6 +82,12 @@ const deleteUserHandle = (id) => {
         {" "}
         <Link to="/user/create">Tambah user</Link>
       </button>
+      <Button title='logout'
+      onClick={() => {
+        Cookies.remove("myapps_token");
+        return navigate("/login", {replace: true});
+      }}
+      />
 
       <table className="table-auto ">
         <thead>
@@ -91,7 +98,7 @@ const deleteUserHandle = (id) => {
             <th className="pr-5">Jenis Kelamin</th>
             <th className="pr-5">Stored At</th>
             <th className="pr-5">Updated At</th> 
-           <th>Aksi</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>

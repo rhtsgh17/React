@@ -13,7 +13,7 @@ export default function Button({
         disabled={disabled}
          {...props}
           style={{
-            backgroundColor: "color",
+            backgroundColor: color,
             opacity: disabled ? 0.5 : 1
           }}
           className="button-red"
