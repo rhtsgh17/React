@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import Button from "../../komponen/button";
 import { useNavigate } from "react-router-dom";
 import { deleteArtikel } from "../../api/artikel";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default function Artikel() {
   const [listArtikel, setListArtikel] = React.useState([]);
@@ -29,11 +29,13 @@ export default function Artikel() {
     getListArtikelHandle();
   }, []);
   return (
-    
     <div>
-        <Button title="Tambah" onClick={() => {
-            return navigate('/tambah', {replace :true})
-        }}/>
+      <Button
+        title="Tambah"
+        onClick={() => {
+          return navigate("/tambah", { replace: true });
+        }}
+      />
       <table className="table-auto w-[1000px]">
         <thead>
           <tr className="text-left border">
@@ -75,67 +77,77 @@ export default function Artikel() {
                     {" "}
                     <Button
                       onClick={() => {
-                        return navigate(`/artikel/${artikel.id}`);
+                        return navigate(`/artikel/update/${artikel.slug}`);
                       }}
                       color="blue"
                       title={"edit"}
                     />
-            <Button
-                     onClick={
-                      async() => {
+                    <Button
+                      onClick={async () => {
                         console.log("delete jalan");
-                        const response = await deleteArtikel(artikel.id)
-                        console.log(response.data)
+                        const response = await deleteArtikel(artikel.id);
+                        console.log(response.data);
                         try {
                           if (response.data.status === "Fail") {
                             const Toast = Swal.mixin({
                               toast: true,
-                              position: 'top-end',
+                              position: "top-end",
                               showConfirmButton: false,
                               timer: 3000,
                               timerProgressBar: true,
                               didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                              }
-                            })
-                            
+                                toast.addEventListener(
+                                  "mouseenter",
+                                  Swal.stopTimer
+                                );
+                                toast.addEventListener(
+                                  "mouseleave",
+                                  Swal.resumeTimer
+                                );
+                              },
+                            });
+
                             Toast.fire({
-                              icon: 'error',
-                              title: 'Failed to Delete Article'
-                            })
-                          }
-                          else {
+                              icon: "error",
+                              title: "Failed to Delete Article",
+                            });
+                          } else {
                             const Toast = Swal.mixin({
                               toast: true,
-                              position: 'top-end',
+                              position: "top-end",
                               showConfirmButton: false,
                               timer: 3000,
                               timerProgressBar: true,
                               didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                              }
-                            })
-                            
+                                toast.addEventListener(
+                                  "mouseenter",
+                                  Swal.stopTimer
+                                );
+                                toast.addEventListener(
+                                  "mouseleave",
+                                  Swal.resumeTimer
+                                );
+                              },
+                            });
+
                             Toast.fire({
-                              icon: 'success',
-                              title: 'Delete'
-                            })
+                              icon: "success",
+                              title: "Delete",
+                            });
                           }
-                          getListArtikelHandle()
-                        }
-                        catch (err){
+                          getListArtikelHandle();
+                        } catch (err) {
                           console.log(err);
                         }
-                      }
-                    }
+                      }}
                       color="red"
                       title={"delete"}
                     />
-                     <Button
+                    <Button
                       onClick={() => {
-                        return navigate(`/artikel/detailArtikel/${artikel.slug}`)
+                        return navigate(
+                          `/artikel/detailArtikel/${artikel.slug}`
+                        );
                       }}
                       color="orange"
                       title={"view"}

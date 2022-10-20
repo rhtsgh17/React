@@ -8,13 +8,14 @@ import ProtectedRoute from './routers/protectRoute';
 import Login from './page/Aut/login';
 import Artikel from './page/artikel';
 import TambahArtikel from './page/artikel/tambah';
-import updateArtikel from './page/artikel/updateArtikel'
+import UpdateArtikel from './page/artikel/updateArtikel'
 import DetailArtikel from './page/artikel/detailArtikel'
 function App() {
   return (
     <React.Fragment>
       <h1 className="bg-green-300 flex items-center justify-center">Belajar APi Postman</h1>
       <Routes> 
+      <Route path="/artikel/update/:slug" element={<UpdateArtikel />} />
       <Route path="/artikel/tambah" element={<TambahArtikel />} />
       <Route path="/artikel" element={<ProtectedRoute><Artikel /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />

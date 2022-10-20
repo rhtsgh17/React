@@ -1,16 +1,22 @@
 import React from "react";
 import Button from "../../komponen/button";
 import Input from "../../komponen/input";
-import { useNavigate } from "react-router-dom";
-import { createartikel } from "../../api/artikel";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  createartikel,
+  getDetailArtikel,
+  Updateartikel,
+} from "../../api/artikel";
 
-export default function TambahArtikel() {
+export default function UpdateArtikel() {
   const [payload, setPayload] = React.useState({
     judul: "",
     thumbnail: "",
     artikel: "",
     imagePreview: null,
   });
+
+  let { slug } = useParams();
 
   const navigate = useNavigate();
   const handlechange = (e) => {
@@ -25,10 +31,18 @@ export default function TambahArtikel() {
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async (e) => {
     try {
+    
       e.preventDefault();
       // eslint-disable-next-line no-undef
-      await createartikel(payload);
-
+      const response = await createartikel(payload);
+      let data = response?.data?.data
+      console.log(data);
+      if (data?. status === 'Fail') {
+        return alert(data?.message)
+      } 
+      alert("berhasil")
+      console.log("response berhasil =>", response);
+      return;
       alert("berhasil");
       return navigate("/artikel", { replace: true });
     } catch (err) {
@@ -38,9 +52,32 @@ export default function TambahArtikel() {
       // setIsSubmitting(false);
     }
   };
-  console.log("payload", payload);
+  const getDetailArtikelHandle = async () => {
+    try {
+      const response = await getDetailArtikel(slug);
+      const data = response.data.data;
+      console.log(data);
+      setPayload((payload) => {
+        return {
+          ...payload,
+          id: data?.id,
+          judul: data?.judul,
+          thumbnail: data?.thumbnail,
+          artikel: data?.artikel,
+          imagePreview: data?.thumbnail,
+        };
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  React.useEffect(() => {
+    getDetailArtikelHandle();
+  }, []);
   return (
     <React.Fragment>
+      <h1>Edit Artikel</h1>
       <form onSubmit={handleSubmit}>
         <Input
           name="judul"
@@ -94,7 +131,7 @@ export default function TambahArtikel() {
           // onChange={handlechange}
         />
 
-        <Button title={"Simpan"} />
+        <Button title={"Perbarui"} />
         <img src={payload.imagePreview} alt={payload.imagePreview} />
       </form>
 
