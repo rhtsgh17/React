@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-undef */
 import React from "react";
 import axios from "axios";
@@ -8,6 +9,8 @@ import Button  from "../komponen/button";
 import Skeleton from 'react-loading-skeleton';
 import { getAllUser } from "../api/user";
 import Cookies from "js-cookie";
+import {useDispatch, useSelector} from "react-redux"
+import { increment, decrement } from "../redux/action/countAction";
 
 export default function User() {
   const [users, setUsers] = React.useState([]);
@@ -17,7 +20,10 @@ export default function User() {
   const [page, setPage] = React.useState(100);
   const [perPage, setPerPage] = React.useState(2);
   const [isFetchUser, setIsFetchUser] = React.useState(false);
- 
+ const store = useSelector((state) => state)
+ const count = useSelector((state) => state.count)
+ const dispatch = useDispatch()
+ console.log('store', store)
   const getUserHandle = async () => {
     try {
       setIsFetchUser(true);
@@ -148,6 +154,39 @@ const deleteUserHandle = (id) => {
         >
           Next
         </button>
+      </div>
+
+      <div className="border grid grid-cols-1 gap-5">
+      <Button onClick={() => {
+            dispatch({
+              type: "change",
+              color: "7cfc00"
+            });
+          }} color="green" title={"green"}/>
+      <Button onClick={() => {
+            dispatch({
+              type: "change",
+              color: "ffff00"
+      
+            });
+          }} color="yellow" title={"yellow"}/>
+      <Button onClick={() => {
+            dispatch(increment());
+          }} color="purple" title={"kembali"}/>
+          <p>status : {count.status}</p>
+          <p>value : {count.value}</p>
+          <Button onClick={() => {
+          
+            dispatch(increment());
+          }} title={'Tambah'}/>
+          <Button
+           onClick={() => {
+            dispatch(decrement());
+          }} 
+          color="blue" 
+          title={'Kurang'}/>
+
+         
       </div>
     </div>
   );
