@@ -1,9 +1,15 @@
 import React from 'react';
+import Parent from './optimies';
+// import RefTutorial from './page';
+import Reducermateri from './reducer';
 
 function App() {
   return (
     <React.Fragment>
-      <h1 className="bg-red-500">Branch Main</h1>
+      <h1 className="bg-orange-500">Hook Materi</h1>
+      <Reducermateri/>
+      <Parent/>
+      {/* <RefTutorial/> */}
     </React.Fragment>
   );
 }
