@@ -1,21 +1,14 @@
-import React from 'react';
-import Parent from './optimies';
-// import RefTutorial from './page';
-import Reducermateri from './reducer';
-
+import logo from './logo.svg';
+import './App.css';
+import HomeRight from './page/homeRight';
+import HomeLeft from './page/homeleft';
 function App() {
   return (
-    <React.Fragment>
-      <h1 className="bg-orange-500">Hook Materi</h1>
-      <Reducermateri/>
-      <Parent/>
-      {/* <RefTutorial/> */}
-    </React.Fragment>
+    <section className="w-screen h-screen flex">
+      <HomeLeft />
+       <HomeRight /> 
+    </section>
   );
 }
 
 export default App;
-
-// name export bisa lebih dari 1
-// harus pake kurung kurawal
-// namanya harus sama
