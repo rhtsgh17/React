@@ -78,14 +78,14 @@ export default function Login() {
   console.log('payload =>', payload);
   return (
     <div className="bg-green-500 h-screen w-screen p-10 flex justify-center items-center">
-      <div className="bg-white-500 h-2/3 w-1/2 mx-1/2 border border-black">
+      <div className="bg-white-500 h-2/3 w-1/2 border border-black">
         <form className="w-full h-full flex flex-col justify-between border border-black">
           <div>
             <h3>Login</h3>
           </div>
 
           <div>
-            <div className="mb-0 text-left border border-red-500">
+            <div className=" text-left border border-black-500 p-3">
               <label>Email</label>
               <input
                 onChange={handleChange}
@@ -97,7 +97,7 @@ export default function Login() {
               />
             </div>
             <p className="text-red-500">{errorEmail}</p>
-            <div className="mb-3 text-left">
+            <div className="mb-3 text-left p-3">
               <label>Password</label>
               <input
                 onChange={handleChange}
@@ -109,7 +109,7 @@ export default function Login() {
               />
             </div>
             <p className="text-red-500">{errorPassword}</p>
-            <div className="d-grid">
+            <div className="d-grid p-3">
               <button
                 type="submit"
                 className="bg-orange-500 text-white"
@@ -121,7 +121,7 @@ export default function Login() {
           </div>
 
           <div>
-            <div className="flex justify-content-between">
+            <div className="flex justify-content-between p-3">
               <p className="forgot-password text-right">
                 <a href="forgot">Forgot password?</a>
               </p>

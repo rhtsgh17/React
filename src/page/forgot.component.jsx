@@ -81,7 +81,7 @@ export default function Forgot() {
           </div>
 
           <div>
-            <div className="mb-3 text-left">
+            <div className="mb-3 text-left p-2">
               <label>Email</label>
               <input
                 onChange={handleChange}
@@ -96,7 +96,7 @@ export default function Forgot() {
           </div>
 
           <div>
-            <div className="d-grid">
+            <div className="d-grid p-2 rounded-full">
               <button type="submit" className="bg-orange-500 text-white">
                 {isLoading ? 'sedang berjalan' : 'Send'}
               </button>

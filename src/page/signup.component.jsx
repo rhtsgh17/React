@@ -89,7 +89,7 @@ export default function SignUp() {
         <form onSubmit={handleSubmit}>
           <h3>Register</h3>
 
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-2">
             <label> name</label>
             <input
               onChange={handleChange}
@@ -101,7 +101,7 @@ export default function SignUp() {
             />
           </div>
           <p className="text-red-500">{errorName}</p>
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-2">
             <label>Email</label>
             <input
               onChange={handleChange}
@@ -113,7 +113,7 @@ export default function SignUp() {
             />
           </div>
           <p className="text-red-500">{errorEmail}</p>
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-2">
             <label>Password</label>
             <input
               onChange={handleChange}
@@ -125,7 +125,7 @@ export default function SignUp() {
             />
           </div>
           <p className="text-red-500">{errorPassword}</p>
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-2">
             <label>PasswordConfirm</label>
             <input
               onChange={handleChange}
@@ -137,7 +137,7 @@ export default function SignUp() {
             />
           </div>
           <p className="text-red-500">{errorPasswordConfirm}</p>
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-2">
             <label>Status</label>
 
             <select
@@ -166,7 +166,7 @@ export default function SignUp() {
             </select>
           </div>
 
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-2">
             <label>Jenis Kelamin</label>
 
             <select
@@ -185,7 +185,7 @@ export default function SignUp() {
             </select>
           </div>
 
-          <div className="d-grid">
+          <div className="d-grid p-2">
             <button
               onClick={handleSubmit}
               type="submit"
@@ -194,7 +194,7 @@ export default function SignUp() {
                  {isLoading ? 'sedang berjalan' : 'Register'}
             </button>
           </div>
-          <p className="Register text-left">
+          <p className="Register text-left p-2">
             <a href="/sign-in">Back to Login</a>
           </p>
         </form>

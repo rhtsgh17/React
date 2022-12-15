@@ -3,13 +3,16 @@ import { FaStar } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GetDetailProduct } from '../API/login_API/DashboardApi';
 import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';import ReactStars from "react-rating-stars-component";
+import Swal from 'sweetalert2';
+import ReactStars from 'react-rating-stars-component';
+import { BsFillCartPlusFill } from 'react-icons/bs';
 export default function Detail() {
   let { uuid } = useParams();
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const [isLoading, setIsLoading] = React.useState(false);
-  let navigate = useNavigate;
+  // let navigate = useNavigate;
   const [payload, setPayload] = React.useState([]);
   const [gambarProduk, setGambarProduk] = React.useState('');
 
@@ -78,12 +81,16 @@ export default function Detail() {
         </div>
         <div className="mt-3"></div>
         <div className="flex items-center space-x-3">
-          <div>
-            <button className="border border-black w-10 h-10 bg-white rounded-full">
-              
-            </button>
+          <div
+            onClick={() => {
+              return navigate('/keranjang', { replace: true });
+            }}
+          >
+            <BsFillCartPlusFill className="w-20 h-10" />
           </div>
-         
+          <div>
+            <button className="border border-black w-10 h-10 bg-white rounded-full"></button>
+          </div>
         </div>
         {/* <div></div> */}
       </header>
@@ -92,29 +99,26 @@ export default function Detail() {
           <img src={gambarProduk} alt="" />
         </div>
 
-        <div>
-          <h1 className="font-bold text-2xl ">{payload.namaProduk}</h1>
-          <h1 className="font-sans text-lg">RP {payload.harga}</h1>
-          <div className="">
-            <div className="flex ">
-            <ReactStars
-            count={5}
-            size={24}
-            activeColor="#ffd700"
-            edit={false}
-            value={payload.rating}
-          />,
-              <h1>{payload.rating}</h1>
+        <div className="h-96 w-[50%] my-8 bg-gradient-to-l from-[#a3e635] via-[#fde047] to-[#4d7c0f] ml-16 rounded-lg text-cyan-50 p-3">
+          <h1 className=" text-lg">{payload.namaProduk}</h1>
+          <div className=" mt-5 ">
+            <div className="flex">
+              <ReactStars
+                count={5}
+                value={payload.rating}
+                size={25}
+                activeColor="#ffd700"
+                isHalf={true}
+                edit={true}
+              />
+              <p className="my-2 ml-2">{payload.rating}</p>
             </div>
+            <p>Rp. {payload.harga},00</p>
           </div>
-          <h1 className="font-bold mt-5 mb-4">DESKRIPSI :</h1>
-          <h1 className="whitespace-normal w-[780px] font-normal text-clip text-lg">
+          <p className=" mt-5 bg-white rounded-md text-[#7DB4DD] p-2">
             {payload.deskripsi}
-          </h1>
-          <h1 className="font-mono mt-1 mb-1 font-bold text-md">
-            kategori : {payload.kategori}
-          </h1>
-
+          </p>
+          <p className=" mt-6 font-bold">Stok {payload.stok}</p>
           <div className="space-x-5 mt-5">
             <button
               className="border-2 w-[100px] h-[30px] border-black bg-green-500 text-white font-bold"
@@ -123,7 +127,14 @@ export default function Detail() {
             >
               Beli
             </button>
-            <button className="border-2 w-[100px] h-[30px] border-black bg-green-500 text-white font-bold">
+            <button
+              className="border-2 w-[100px] h-[30px] border-black bg-green-500 text-white font-bold"
+              type="submit"
+              onClick={() => {
+                // Cookies.set("myapps_token", "ini isi token");
+                return navigate('/keranjang', { replace: true });
+              }}
+            >
               Keranjang
             </button>
           </div>
@@ -132,5 +143,3 @@ export default function Detail() {
     </div>
   );
 }
-
-

@@ -79,7 +79,7 @@ export default function Reset() {
         <form onSubmit={handleSubmit}>
           <h3>Reset Password</h3>
 
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-3">
             <label>Password</label>
             <input
               onChange={handleChange}
@@ -91,7 +91,7 @@ export default function Reset() {
             />
           </div>
           <p className="text-red-500">{errorPassword}</p>
-          <div className="mb-3 text-left">
+          <div className="mb-3 text-left p-3">
             <label>Confirm Password</label>
             <input
               onChange={handleChange}
@@ -103,7 +103,7 @@ export default function Reset() {
             />
           </div>
           <p className="text-red-500">{errorPasswordConfirm}</p>
-          <div className="d-grid">
+          <div className="d-grid p-3">
             <button
               type="submit"
               // onClick={handleSubmit}

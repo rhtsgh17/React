@@ -94,6 +94,7 @@ export default function Dashboard() {
           <div className="border border-blue-500 w-[190px] mb-2 mt-2 ml-2 bg-green-500 ">
             <div className=" w-[200px] h-[630px]">
               <select
+              className='border w-[100]'
                 onChange={handleChange}
                 name="kategori"
                 value={payload.kategori}
