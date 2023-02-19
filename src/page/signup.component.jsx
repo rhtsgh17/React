@@ -56,16 +56,17 @@ export default function SignUp() {
         return navigate('/sign-in', { replace: true });
       }
       if (response?.response?.data?.status === 'fail') {
+        console.log(response?.response?.data?.errors?.name?.msg);
         console.log(response?.response?.data?.errors?.email?.msg);
         console.log(response?.response?.data?.errors?.status?.msg);
         console.log(response?.response?.data?.errors?.jenisKelamin?.msg);
         console.log(response?.response?.data?.errors?.password?.msg);
         console.log(response?.response?.data?.errors?.passwordConfirm?.msg);
       } else {
-        setErrorEmail(response?.response?.data?.msg);
-        setErrorPassword(response?.response?.data?.msg);
-        setErrorName(response?.response?.data?.msg);
-        setErrorPasswordConfrim(response?.response?.data?.msg);
+        setErrorEmail(response?.response?.data?.errors?.email?.msg);
+        setErrorPassword(response?.response?.data?.errors?.password?.msg);
+        setErrorName(response?.response?.data?.errors?.name?.msg);
+        setErrorPasswordConfrim(response?.response?.data?.errors?.passwordConfirm?.msg);
       }
       
       if (payload.password === '') {
@@ -75,6 +76,14 @@ export default function SignUp() {
       }
       if (payload.email === '') {
         setErrorEmail('Email wajib diisi');
+      }
+      if (payload.name === '') {
+        setErrorName('Name wajib diisi');
+      }
+      if (payload.passwordConfirm === '') {
+        setErrorPasswordConfrim('PasswordConfirm  wajib diisi');
+      }else if (payload.password.length < 8) {
+        setErrorEmail('Password harus 8 karakter');
       }
     } catch (err) {
       console.log(err);

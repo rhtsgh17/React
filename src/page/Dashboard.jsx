@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import ReactStars from 'react-rating-stars-component';
 
 export default function Dashboard() {
-  
   const navigate = useNavigate();
   const author = useSelector((state) => state.auth);
   // const navigate = useNavigate();
@@ -60,41 +59,47 @@ export default function Dashboard() {
   console.log('listProduct =>', listProduct);
   console.log('payload =>', payload);
   return (
-    <div className="overflow-x-hidden overflow-auto ">
-      <header className="bg-green-500 w-screen h-16 flex justify-between">
-        <div className="flex p-2 justify-between">
-          <p className="text-white mt-0 text-4xl">Rohmats</p>
-        </div>
-        <div className="p-3">
-          <input
-            name="keyword"
-            type="text"
-            className="w-[500px] h-10 p-2 rounded-md "
-            placeholder="cari barang "
-            onChange={handleChange}
-            value={payload.keyword}
-          />
-        </div>
-        <div className="flex items-center space-x-3">
-          <div
-            onClick={() => {
-              return navigate('/keranjang', { replace: true });
-            }}
-          >
-            <BsFillCartPlusFill className="w-20 h-10" />
+    <div className="">
+      <header className="sticky top-0 z-50 bg-green-500 w-screen h-16 ">
+        <div className="flex justify-between ">
+          <div className="flex p-2 justify-between">
+            <p className="text-white mt-0 text-4xl">Rohmats</p>
+            <div className="flex">
+              <p className="text-base">{author?.email}</p>
+              <p className="text-base">{author?.name}</p>
+            </div>
           </div>
-          <div>
-            <button className="border border-black w-10 h-10 bg-white rounded-full"></button>
+          <div className="p-3">
+            <input
+              name="keyword"
+              type="text"
+              className="w-[500px] h-10 p-2 rounded-md "
+              placeholder="cari barang "
+              onChange={handleChange}
+              value={payload.keyword}
+            />
           </div>
+          <div className="flex items-center space-x-3">
+            <div
+              onClick={() => {
+                return navigate('/keranjang', { replace: true });
+              }}
+            >
+              <BsFillCartPlusFill className="w-20 h-10" />
+            </div>
+            <div>
+              <button className="border border-black w-10 h-10 bg-white rounded-full"></button>
+            </div>
+          </div>
+          {/* <div></div> */}
         </div>
-        {/* <div></div> */}
       </header>
       <form>
         <body className="flex space-x-3">
-          <div className="border border-blue-500 w-[190px] mb-2 mt-2 ml-2 bg-green-500 ">
-            <div className=" w-[200px] h-[630px]">
+          <div className="border sticky top-[70px] border-blue-500 h-[300px] w-[190px] mb-2 mt-2 ml-2 bg-green-500 ">
+            <div className=" w-[200px] ">
               <select
-              className='border w-[100]'
+                className="border w-[100]"
                 onChange={handleChange}
                 name="kategori"
                 value={payload.kategori}
@@ -122,17 +127,34 @@ export default function Dashboard() {
                 className="w-[155px] border p-3 bg-white-500 text-black text-center"
                 name="hargaTerendah"
               />
+
+              <button
+                className="w-[155px] border p-3 bg-white text-black text-center m-2"
+                onClick={(e) => {
+                  e.preventDefault()
+                  return setPayload({
+                    hargaTerendah: '',
+                    hargaTertinggi: '',
+                    kategori: '',
+                    keyword: '',
+                  });
+                }}
+              >
+                Reset Harga
+              </button>
             </div>
           </div>
           <div className="mt-1">
             <div className="grid grid-cols-5 gap-4 overflow-y-visible">
-            {listProduct.length === 0 ? (
-                  <div className='w-screen h-screenx'>
-                    <h1 className='font-medium text-black items-center text-center'>Barang Tidak di temukan</h1>
-                  </div>
+              {listProduct.length === 0 ? (
+                <div className="w-screen h-screenx">
+                  <h1 className="font-medium text-black items-center text-center">
+                    Barang Tidak di temukan
+                  </h1>
+                </div>
               ) : (
                 listProduct?.map((item, index) => {
-                  let converter = require("rupiah-format");
+                  let converter = require('rupiah-format');
                   let harga = item.harga;
                   let hargaConvert = converter.convert(harga);
                   const gila = item.gambarProduk;
@@ -154,7 +176,9 @@ export default function Dashboard() {
                         <p className="text-sm  w-[180px] mt-2 ml-2 font-medium">
                           {item.namaProduk}
                         </p>
-                        <p className="text-sm font-bold ml-2 ">{hargaConvert}</p>
+                        <p className="text-sm font-bold ml-2 ">
+                          {hargaConvert}
+                        </p>
                         <div className="flex">
                           <p className="text-sm font-semibold ml-2 ">
                             Kategori : {item.kategori}
@@ -177,9 +201,8 @@ export default function Dashboard() {
                       </div>
                     </button>
                   );
-                }))}
-              
-              
+                })
+              )}
             </div>
           </div>
         </body>

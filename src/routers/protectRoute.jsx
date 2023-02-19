@@ -2,8 +2,8 @@ import React from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { authLogin, authMe } from "../reducer/action/authAction";
-import { syncToken } from "../api/base_url";
+import { authLogin, authMe } from "../redux/action/authAction";
+import { syncToken } from "../API/login_API/url";
 
 export default function ProtectRoutes({ children }) {
   const auth = Cookies.get("myapps_token");
